@@ -18,7 +18,8 @@ int indexesLsb[14] = { 0B10000000, 0B11000000, 0B11100000, 0B01110000, 0B0011000
 int indexesMsb[14] = { 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
 
 // Ground layers for up and down animation
-int groundArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
+int groundUpArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
+int groundDownArray[7] = { FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND };
 
 // Select mode
 int mode = 0;
@@ -48,12 +49,14 @@ void shiftLedsData(bitDirection firstBit){
     }
 }
 
-void upAndDownAnimation(lastCicle cicle){
+void upAndDownAnimation(bitDirection animationDirection, lastCicle cicle){
   // Set all layer to low
   digitalWrite(FIRSTGROUND, LOW);
   digitalWrite(SECONDGROUND, LOW);
   digitalWrite(THIRDGROUND, LOW);
   digitalWrite(FOURTHGROUND, LOW);
+
+  int animationArray[7];
   
   // Set all bits to high
   firstLedsData = 0B11111111;
@@ -61,13 +64,18 @@ void upAndDownAnimation(lastCicle cicle){
   // Shift bits into register
   shiftLedsData(MSB);
 
+  if(animationDirection == LSB){
+    memcpy(animationArray, groundUpArray, sizeof(groundUpArray[0])*7);
+  } else {
+    memcpy(animationArray, groundDownArray, sizeof(groundDownArray[0])*7);
+  }
   // Loop through ground layers
   for(int i = 0; i < 6 + cicle; i++){
     if(i == 0){
-      digitalWrite(groundArray[i], HIGH);
+      digitalWrite(animationArray[i], HIGH);
     } else {
-      digitalWrite(groundArray[i-1], LOW);
-      digitalWrite(groundArray[i], HIGH);
+      digitalWrite(animationArray[i-1], LOW);
+      digitalWrite(animationArray[i], HIGH);
     }
 
     delay(SHIFTDELAY);
@@ -133,7 +141,7 @@ void setup(){
 }
 
 void loop(){
-  upAndDownAnimation(YES);
+  upAndDownAnimation(MSB, YES);
   leftAndRightAnimation(MSB, YES);
   
 }
