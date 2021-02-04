@@ -18,7 +18,7 @@ int indexesLsb[14] = { 0B10000000, 0B11000000, 0B11100000, 0B01110000, 0B0011000
 int indexesMsb[14] = { 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
 
 // Ground layers for up and down animation
-int groundArray[6] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND };
+int groundArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
 
 // Select mode
 int mode = 0;
@@ -27,6 +27,11 @@ int mode = 0;
 enum bitDirection {
   LSB = 0,
   MSB = 1
+};
+
+enum lastCicle {
+  NO = 0,
+  YES = 1
 };
 
 void shiftLedsData(bitDirection firstBit){
@@ -43,7 +48,7 @@ void shiftLedsData(bitDirection firstBit){
     }
 }
 
-void upAndDownAnimation(){
+void upAndDownAnimation(lastCicle cicle){
   // Set all layer to low
   digitalWrite(FIRSTGROUND, LOW);
   digitalWrite(SECONDGROUND, LOW);
@@ -57,13 +62,52 @@ void upAndDownAnimation(){
   shiftLedsData(MSB);
 
   // Loop through ground layers
-  for(int i = 0; i < 6; i++){
+  for(int i = 0; i < 6 + cicle; i++){
     if(i == 0){
       digitalWrite(groundArray[i], HIGH);
     } else {
       digitalWrite(groundArray[i-1], LOW);
       digitalWrite(groundArray[i], HIGH);
     }
+
+    delay(SHIFTDELAY);
+  }
+}
+
+void leftAndRightAnimation(lastCicle cicle){
+  // Set all layers to high
+  digitalWrite(FIRSTGROUND, HIGH);
+  digitalWrite(SECONDGROUND, HIGH);
+  digitalWrite(THIRDGROUND, HIGH);
+  digitalWrite(FOURTHGROUND, HIGH);
+
+  // Set bit pattern
+  firstLedsData = 0B00010001;
+  secondLedsData = 0B00010001;
+
+  // Loop to the left
+  for(int i = 0; i < 4; i++){
+    // Shift bits into register
+    shiftLedsData(MSB);
+
+    // Bitshift data values
+    firstLedsData = firstLedsData << 1;
+    secondLedsData = secondLedsData << 1;
+
+    delay(SHIFTDELAY);
+  }
+
+  // Set bit pattern
+  firstLedsData = 0B01000100;
+  secondLedsData = 0B01000100;
+
+  for(int i = 0; i < 2 + cicle; i++){
+    // Shift bits into register
+    shiftLedsData(MSB);
+
+    // Bitshift data values
+    firstLedsData = firstLedsData >> 1;
+    secondLedsData = secondLedsData >> 1;
 
     delay(SHIFTDELAY);
   }
@@ -89,6 +133,7 @@ void setup(){
 }
 
 void loop(){
-  upAndDownAnimation();
+  upAndDownAnimation(YES);
+  leftAndRightAnimation(YES);
   
 }
