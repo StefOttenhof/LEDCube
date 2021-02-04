@@ -1,4 +1,4 @@
-#define SHIFTDELAY 200
+#define SHIFTDELAY 500
 #define DATAPIN 7
 #define LATCHPIN 6
 #define CLOCKPIN 5
@@ -64,6 +64,7 @@ void upAndDownAnimation(bitDirection animationDirection, lastCicle cicle){
   // Shift bits into register
   shiftLedsData(MSB);
 
+  // Select direction
   if(animationDirection == LSB){
     memcpy(animationArray, groundUpArray, sizeof(groundUpArray[0])*7);
   } else {
@@ -93,7 +94,7 @@ void leftAndRightAnimation(bitDirection animationDirection, lastCicle cicle){
   firstLedsData = 0B00010001;
   secondLedsData = 0B00010001;
 
-  // Loop to the left
+  // Loop to the left or right depending on direction
   for(int i = 0; i < 4; i++){
     // Shift bits into register
     shiftLedsData(animationDirection);
@@ -109,6 +110,7 @@ void leftAndRightAnimation(bitDirection animationDirection, lastCicle cicle){
   firstLedsData = 0B01000100;
   secondLedsData = 0B01000100;
 
+  // Loop to the left or right depending on direction
   for(int i = 0; i < 2 + cicle; i++){
     // Shift bits into register
     shiftLedsData(animationDirection);
@@ -118,6 +120,92 @@ void leftAndRightAnimation(bitDirection animationDirection, lastCicle cicle){
     secondLedsData = secondLedsData >> 1;
 
     delay(SHIFTDELAY);
+  }
+}
+
+void forwardAndBackwardAnimation(bitDirection animationDirection, lastCicle cicle){
+  // Set all layers to high
+  digitalWrite(FIRSTGROUND, HIGH);
+  digitalWrite(SECONDGROUND, HIGH);
+  digitalWrite(THIRDGROUND, HIGH);
+  digitalWrite(FOURTHGROUND, HIGH);
+
+  if(animationDirection == MSB){
+    // Set bit pattern
+    firstLedsData = 0B00001111;
+    secondLedsData = 0B00000000;
+
+    // Loop 
+    for(int i = 0; i < 4; i++){
+      shiftLedsData(animationDirection);
+
+      if(firstLedsData == 0B11110000){
+        firstLedsData = 0B00000000;
+        secondLedsData = 0B00001111;
+      } else {
+        secondLedsData = secondLedsData << 4;
+        firstLedsData = firstLedsData << 4;
+      }
+
+      delay(SHIFTDELAY);
+    }
+
+    // Set bit pattern
+    firstLedsData = 0B00000000;
+    secondLedsData = 0B00001111;
+
+    // Loop 
+    for(int i = 0; i < 2 + cicle; i++){
+      shiftLedsData(animationDirection);
+
+      if(secondLedsData == 0B00001111){
+        secondLedsData = 0B00000000;
+        firstLedsData = 0B11110000;
+      } else {
+        secondLedsData = secondLedsData >> 4;
+        firstLedsData = firstLedsData >> 4;
+      }
+
+      delay(SHIFTDELAY);
+    }
+  } else {
+    // Set bit pattern
+    firstLedsData = 0B00000000;
+    secondLedsData = 0B00001111;
+
+    // Loop 
+    for(int i = 0; i < 4; i++){
+      shiftLedsData(animationDirection);
+
+      if(secondLedsData == 0B11110000){
+        secondLedsData = 0B00000000;
+        firstLedsData = 0B00001111;
+      } else {
+        secondLedsData = secondLedsData << 4;
+        firstLedsData = firstLedsData << 4;
+      }
+
+      delay(SHIFTDELAY);
+    }
+
+    // Set bit pattern
+    firstLedsData = 0B11110000;
+    secondLedsData = 0B00000000;
+
+    // Loop 
+    for(int i = 0; i < 2; i++){
+      shiftLedsData(animationDirection);
+
+      if(firstLedsData == 0B00001111){
+        firstLedsData = 0B00000000;
+        secondLedsData = 0B11110000;
+      } else {
+        secondLedsData = secondLedsData >> 4;
+        firstLedsData = firstLedsData >> 4;
+      }
+
+      delay(SHIFTDELAY);
+    }
   }
 }
 
@@ -141,7 +229,7 @@ void setup(){
 }
 
 void loop(){
-  upAndDownAnimation(MSB, YES);
-  leftAndRightAnimation(MSB, YES);
-  
+  //upAndDownAnimation(MSB, YES);
+  //leftAndRightAnimation(MSB, NO);
+  forwardAndBackwardAnimation(MSB, YES);
 }
