@@ -74,7 +74,7 @@ void upAndDownAnimation(lastCicle cicle){
   }
 }
 
-void leftAndRightAnimation(lastCicle cicle){
+void leftAndRightAnimation(bitDirection animationDirection, lastCicle cicle){
   // Set all layers to high
   digitalWrite(FIRSTGROUND, HIGH);
   digitalWrite(SECONDGROUND, HIGH);
@@ -88,7 +88,7 @@ void leftAndRightAnimation(lastCicle cicle){
   // Loop to the left
   for(int i = 0; i < 4; i++){
     // Shift bits into register
-    shiftLedsData(MSB);
+    shiftLedsData(animationDirection);
 
     // Bitshift data values
     firstLedsData = firstLedsData << 1;
@@ -103,7 +103,7 @@ void leftAndRightAnimation(lastCicle cicle){
 
   for(int i = 0; i < 2 + cicle; i++){
     // Shift bits into register
-    shiftLedsData(MSB);
+    shiftLedsData(animationDirection);
 
     // Bitshift data values
     firstLedsData = firstLedsData >> 1;
@@ -134,6 +134,6 @@ void setup(){
 
 void loop(){
   upAndDownAnimation(YES);
-  leftAndRightAnimation(YES);
+  leftAndRightAnimation(MSB, YES);
   
 }
