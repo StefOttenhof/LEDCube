@@ -14,8 +14,8 @@ uint8_t firstLedsData = 0B00000000;
 uint8_t secondLedsData = 0B00000000;
 
 // Indexes for circle animation
-int indexesLsb[14] = { 0B10000000, 0B11000000, 0B11100000, 0B01110000, 0B00110001, 0B00010001, 0B00000001, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00001000, 0B10001000, 0B10001000};
-int indexesMsb[14] = { 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
+int indexesLsb[12] = { 0B11100000, 0B01110000, 0B00110001, 0B00010001, 0B00000001, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00001000, 0B10001000, 0B11001000};
+int indexesMsb[12] = { 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
 
 // Ground layers for up and down animation
 int groundUpArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
@@ -209,6 +209,27 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCicle cicl
   }
 }
 
+void circleAnimation(bitDirection animationDirection, lastCicle cicle){
+   // Set all layers to high
+  digitalWrite(FIRSTGROUND, HIGH);
+  digitalWrite(SECONDGROUND, HIGH);
+  digitalWrite(THIRDGROUND, HIGH);
+  digitalWrite(FOURTHGROUND, HIGH);
+
+  if(animationDirection == MSB){
+    for(int i = 0; i < 12 - cicle; i++){
+       firstLedsData = indexesMsb[i];
+       secondLedsData = indexesLsb[i];
+        
+       shiftLedsData(MSB);
+
+       delay(SHIFTDELAY);
+    }
+  } else {
+    //Implement for LSB
+  }
+}
+
 void setup(){
     // put your setup code here, to run once:
     pinMode(LATCHPIN, OUTPUT);
@@ -231,5 +252,6 @@ void setup(){
 void loop(){
   //upAndDownAnimation(MSB, YES);
   //leftAndRightAnimation(MSB, NO);
-  forwardAndBackwardAnimation(MSB, YES);
+  //forwardAndBackwardAnimation(MSB, YES);
+  circleAnimation(LSB, YES);
 }
