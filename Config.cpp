@@ -16,6 +16,12 @@ bool ButtonXState = 1;
 bool ButtonYState = 1;
 bool ButtonZState = 1;
 
-int mode = 0;
+bool playing = true;
+bool initialLoad = true;
+
+uint8_t firstLedsData = 0B00000000;
+uint8_t secondLedsData = 0B00000000;
+
+int mode = 1;
 int groundArray[4] {FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND};
 /* END CONFIG_CPP */

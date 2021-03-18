@@ -20,6 +20,12 @@ extern bool ButtonXState;
 extern bool ButtonYState;
 extern bool ButtonZState;
 
+extern bool playing;
+extern bool initialLoad;
+
+extern uint8_t firstLedsData;
+extern uint8_t secondLedsData;
+
 
 enum bitDirection {
   LSB = 0,

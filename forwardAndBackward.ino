@@ -1,4 +1,5 @@
 /* FORWARDANDBACKWARD_INO */
+#include "Config.h"
 
 void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high

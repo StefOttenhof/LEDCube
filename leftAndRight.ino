@@ -1,4 +1,5 @@
 /* UPANDDOWN_INO */
+#include "Config.h"
 
 void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
   turnAllLayersOn();
