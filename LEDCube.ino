@@ -1,6 +1,7 @@
 #include "Config.h"
 #include "ShiftData.h"
 #include "Ground.h"
+#include "upAndDown.h"
 
 bool ButtonXState = HIGH;
 bool ButtonYState = HIGH;
@@ -17,40 +18,8 @@ uint8_t secondLedsData = 0B00000001;
 int indexesLsb[12] = { 0B11100000, 0B01110000, 0B00110001, 0B00010001, 0B00000001, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00001000, 0B10001000, 0B11001000};
 int indexesMsb[12] = { 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
 
-// Ground layers for up and down animation
-int groundUpArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
-int groundDownArray[7] = { FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND };
 
-void upAndDownAnimation(bitDirection animationDirection, lastCycle cycle){
-  // Set all layer to low
-  turnAllLayersOff();
 
-  int animationArray[7];
-  
-  // Set all bits to high
-  firstLedsData = 0B11111111;
-  secondLedsData = 0B11111111;
-  // Shift bits into register
-  shiftData(MSB);
-
-  // Select direction
-  if(animationDirection == LSB){
-    memcpy(animationArray, groundUpArray, sizeof(groundUpArray[0])*7);
-  } else {
-    memcpy(animationArray, groundDownArray, sizeof(groundDownArray[0])*7);
-  }
-  // Loop through ground layers
-  for(int i = 0; i < 6 + cycle; i++){
-    if(i == 0){
-      digitalWrite(animationArray[i], HIGH);
-    } else {
-      digitalWrite(animationArray[i-1], LOW);
-      digitalWrite(animationArray[i], HIGH);
-    }
-
-    delay(SHIFTDELAY);
-  }
-}
 
 void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high
@@ -69,7 +38,7 @@ void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
     firstLedsData = firstLedsData << 1;
     secondLedsData = secondLedsData << 1;
 
-    delay(SHIFTDELAY);
+    shiftDelay();
   }
 
   // Set bit pattern
@@ -85,7 +54,7 @@ void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
     firstLedsData = firstLedsData >> 1;
     secondLedsData = secondLedsData >> 1;
 
-    delay(SHIFTDELAY);
+    shiftDelay();
   }
 }
 
@@ -110,7 +79,7 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycl
         firstLedsData = firstLedsData << 4;
       }
 
-      delay(SHIFTDELAY);
+      shiftDelay();
     }
 
     // Set bit pattern
@@ -129,7 +98,7 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycl
         firstLedsData = firstLedsData >> 4;
       }
 
-      delay(SHIFTDELAY);
+      shiftDelay();
     }
   } else {
     // Set bit pattern
@@ -148,7 +117,7 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycl
         firstLedsData = firstLedsData << 4;
       }
 
-      delay(SHIFTDELAY);
+      shiftDelay();
     }
 
     // Set bit pattern
@@ -167,7 +136,7 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycl
         firstLedsData = firstLedsData >> 4;
       }
 
-      delay(SHIFTDELAY);
+      shiftDelay();
     }
   }
 }
@@ -183,7 +152,7 @@ void circleAnimation(bitDirection animationDirection, lastCycle cycle){
         
        shiftData(MSB);
 
-       delay(SHIFTDELAY);
+       shiftDelay();
     }
   } else {
     //Implement for LSB
@@ -204,7 +173,7 @@ void twoRowsLeftAndRightAnimation(bitDirection animationDirection, lastCycle cyc
       firstLedsData = firstLedsData << 4;
       secondLedsData = secondLedsData >> 4;
 
-      delay(SHIFTDELAY);
+      shiftDelay();
    }
 }
 
