@@ -1,6 +1,6 @@
 /* UPANDDOWN_H */
-#ifndef GROUND_H 
-#define GROUND_H
+#ifndef UPANDDOWN_H 
+#define UPANDDOWN_H
 
 extern int animationArray[7];
 extern int groundUpArray[7];

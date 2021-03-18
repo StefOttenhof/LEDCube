@@ -16,6 +16,10 @@ extern int BUTTONZ;
 extern int mode;
 extern int groundArray[4];
 
+extern bool ButtonXState;
+extern bool ButtonYState;
+extern bool ButtonZState;
+
 
 enum bitDirection {
   LSB = 0,

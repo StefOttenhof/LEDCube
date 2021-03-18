@@ -1,7 +1,6 @@
 /* UPANDDOWN_INO */
 
 void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
-  // Set all layers to high
   turnAllLayersOn();
   firstLedsData = 0B00010001;
   secondLedsData = 0B00010001;

@@ -3,123 +3,20 @@
 #include "Ground.h"
 #include "upAndDown.h"
 #include "leftAndRight.h"
+#include "forwardAndBackward.h"
+#include "Circle.h"
 
-bool ButtonXState = HIGH;
-bool ButtonYState = HIGH;
-bool ButtonZState = HIGH;
+
 
 int posY = 0;
 uint16_t posXZ = 1;
 
 
 uint8_t firstLedsData = 0B00000000;
-uint8_t secondLedsData = 0B00000001;
+uint8_t secondLedsData = 0B00000000;
 
 // Indexes for circle animation
-int indexesLsb[12] = { 0B11100000, 0B01110000, 0B00110001, 0B00010001, 0B00000001, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00001000, 0B10001000, 0B11001000};
-int indexesMsb[12] = { 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
 
-
-void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycle){
-  // Set all layers to high
-  turnAllLayersOn();
-
-  if(animationDirection == MSB){
-    // Set bit pattern
-    firstLedsData = 0B00001111;
-    secondLedsData = 0B00000000;
-
-    // Loop 
-    for(int i = 0; i < 4; i++){
-      shiftData(animationDirection);
-
-      if(firstLedsData == 0B11110000){
-        firstLedsData = 0B00000000;
-        secondLedsData = 0B00001111;
-      } else {
-        secondLedsData = secondLedsData << 4;
-        firstLedsData = firstLedsData << 4;
-      }
-
-      shiftDelay();
-    }
-
-    // Set bit pattern
-    firstLedsData = 0B00000000;
-    secondLedsData = 0B00001111;
-
-    // Loop 
-    for(int i = 0; i < 2 + cycle; i++){
-      shiftData(animationDirection);
-
-      if(secondLedsData == 0B00001111){
-        secondLedsData = 0B00000000;
-        firstLedsData = 0B11110000;
-      } else {
-        secondLedsData = secondLedsData >> 4;
-        firstLedsData = firstLedsData >> 4;
-      }
-
-      shiftDelay();
-    }
-  } else {
-    // Set bit pattern
-    firstLedsData = 0B00000000;
-    secondLedsData = 0B00001111;
-
-    // Loop 
-    for(int i = 0; i < 4; i++){
-      shiftData(animationDirection);
-
-      if(secondLedsData == 0B11110000){
-        secondLedsData = 0B00000000;
-        firstLedsData = 0B00001111;
-      } else {
-        secondLedsData = secondLedsData << 4;
-        firstLedsData = firstLedsData << 4;
-      }
-
-      shiftDelay();
-    }
-
-    // Set bit pattern
-    firstLedsData = 0B11110000;
-    secondLedsData = 0B00000000;
-
-    // Loop 
-    for(int i = 0; i < 2; i++){
-      shiftData(animationDirection);
-
-      if(firstLedsData == 0B00001111){
-        firstLedsData = 0B00000000;
-        secondLedsData = 0B11110000;
-      } else {
-        secondLedsData = secondLedsData >> 4;
-        firstLedsData = firstLedsData >> 4;
-      }
-
-      shiftDelay();
-    }
-  }
-}
-
-void circleAnimation(bitDirection animationDirection, lastCycle cycle){
-   // Set all layers to high
-  turnAllLayersOn();
-
-  if(animationDirection == MSB){
-    for(int i = 0; i < 12 - cycle; i++){
-       firstLedsData = indexesMsb[i];
-       secondLedsData = indexesLsb[i];
-        
-       shiftData(MSB);
-
-       shiftDelay();
-    }
-  } else {
-    //Implement for LSB
-  }
-}
 
 void twoRowsLeftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high
@@ -205,11 +102,7 @@ void setup(){
     pinMode(BUTTONX, INPUT_PULLUP);
     pinMode(BUTTONY, INPUT_PULLUP);
     pinMode(BUTTONZ, INPUT_PULLUP);
-    //digitalWrite(FIRSTGROUND, HIGH);
-    //digitalWrite(SECONDGROUND, HIGH);
-    //digitalWrite(THIRDGROUND, HIGH);
-    //digitalWrite(FOURTHGROUND, HIGH);
-
+    turnAllLayersOff();
     shiftData(MSB);
 
     PCICR |= 0b00000111;
@@ -243,9 +136,9 @@ ISR (PCINT2_vect){
 }
 
 void loop(){
-  leftAndRightAnimation(MSB, NO);
-  //forwardAndBackwardAnimation(MSB, YES);
-  //circleAnimation(LSB, YES);
+  //leftAndRightAnimation(MSB, YES);
+  //forwardAndBackwardAnimation(LSB, YES);
+  circleAnimation(MSB, NO);
   //twoRowsLeftAndRightAnimation(MSB, YES);
   //upAndDownAnimation(MSB, NO);
 }
