@@ -7,9 +7,6 @@
 #include "forwardAndBackward.h"
 #include "Circle.h"
 
-
-
-
 void setup(){
     // put your setup code here, to run once:
     pinMode(LATCHPIN, OUTPUT);
@@ -27,9 +24,6 @@ void setup(){
 
     PCICR |= 0b00000111;
     PCMSK2 |= 0B00000111;
-
-    Serial.begin(9600);
-    while (!Serial) {}
 }
 
 ISR (PCINT2_vect){
@@ -37,15 +31,10 @@ ISR (PCINT2_vect){
      ButtonYState = HIGH;
      mode = 0;
      initialLoad = 1;
-     Serial.println(mode);
      
      } else if(digitalRead(BUTTONY) && ButtonYState){
        ButtonYState = LOW;
      }
-
-
-
-     ////////////
 
      if(!mode && !playing){
         if(!(digitalRead(BUTTONX)) && !ButtonXState){
