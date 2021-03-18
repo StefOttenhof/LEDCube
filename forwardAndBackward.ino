@@ -3,7 +3,7 @@
 
 void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycle){
   /*
-  * Function: circleAnimation
+  * Function: forwardAndBackwardAnimation
   * ----------------------------
   *   Animation of 4 bits going from the front to the back of the cube
   *

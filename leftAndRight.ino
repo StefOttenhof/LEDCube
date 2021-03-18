@@ -3,7 +3,7 @@
 
 void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
   /*
-  * Function: circleAnimation
+  * Function: leftAndRightAnimation
   * ----------------------------
   *   Animation of 4 bits going from the left to the right of the cube
   *
