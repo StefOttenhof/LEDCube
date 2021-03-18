@@ -8,7 +8,6 @@
 #include "Circle.h"
 
 void setup(){
-    // put your setup code here, to run once:
     pinMode(LATCHPIN, OUTPUT);
     pinMode(DATAPIN,  OUTPUT);  
     pinMode(CLOCKPIN, OUTPUT);
