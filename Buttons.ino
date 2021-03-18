@@ -25,34 +25,34 @@ void moveY(){
 }
 
 void moveX(){
-    if(firstLedsData == 0B00001000){
-      firstLedsData = 0B00000001;
-    } else if(firstLedsData == 0B10000000){
-      firstLedsData = 0B00010000;
+    if(firstByte == 0B00001000){
+      firstByte = 0B00000001;
+    } else if(firstByte == 0B10000000){
+      firstByte = 0B00010000;
     } else {
-      firstLedsData = firstLedsData << 1;
+      firstByte = firstByte << 1;
     }
 
-    if(secondLedsData == 0B00001000){
-      secondLedsData = 0B00000001;
-    } else if(secondLedsData == 0B10000000){
-      secondLedsData = 0B00010000;
+    if(secondByte == 0B00001000){
+      secondByte = 0B00000001;
+    } else if(secondByte == 0B10000000){
+      secondByte = 0B00010000;
     } else {
-      secondLedsData = secondLedsData << 1;
+      secondByte = secondByte << 1;
     }
     shiftData(MSB);
 }
 
 void moveZ(){
-  if(firstLedsData >= 0B00010000){
-    secondLedsData = firstLedsData >> 4;
-    firstLedsData = 0B00000000;
-  } else if(secondLedsData >= 0B00010000){
-    firstLedsData = secondLedsData >> 4;
-    secondLedsData = 0B00000000;
+  if(firstByte >= 0B00010000){
+    secondByte = firstByte >> 4;
+    firstByte = 0B00000000;
+  } else if(secondByte >= 0B00010000){
+    firstByte = secondByte >> 4;
+    secondByte = 0B00000000;
   } else {
-    firstLedsData = firstLedsData << 4;
-    secondLedsData = secondLedsData << 4;
+    firstByte = firstByte << 4;
+    secondByte = secondByte << 4;
   }
 
   shiftData(MSB);
@@ -60,8 +60,8 @@ void moveZ(){
 
 void configLayout(){
      turnAllLayersOff();
-     firstLedsData = 0B00000001;
-     secondLedsData = 0B00000000;
+     firstByte = 0B00000001;
+     secondByte = 0B00000000;
      shiftData(MSB);
      turnLayerOn(FIRSTGROUND);
 }

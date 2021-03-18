@@ -26,8 +26,8 @@ extern bool ButtonYState;
 extern bool ButtonZState;
 
 
-extern uint8_t firstLedsData;
-extern uint8_t secondLedsData;
+extern uint8_t firstByte;
+extern uint8_t secondByte;
 
 extern int mode;
 extern bool playing;

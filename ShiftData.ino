@@ -3,13 +3,13 @@
 void shiftData(bitDirection firstBit){
     if(firstBit == 0){
         digitalWrite(LATCHPIN, LOW);
-        shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, firstLedsData);
-        shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, secondLedsData);
+        shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, firstByte);
+        shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, secondByte);
         digitalWrite(LATCHPIN, HIGH);
     } else if(firstBit == 1){
         digitalWrite(LATCHPIN, LOW);
-        shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, firstLedsData);
-        shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, secondLedsData);
+        shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, firstByte);
+        shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, secondByte);
         digitalWrite(LATCHPIN, HIGH);
     }
 }

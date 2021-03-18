@@ -1,14 +1,14 @@
 /* UPANDDOWN_INO */
 #include "Config.h"
- ,.
+
 int animationArray[7];
 int groundUpArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
 int groundDownArray[7] = { FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND };
 
 void upAndDownAnimation(bitDirection animationDirection, lastCycle cycle){
   turnAllLayersOff();
-  firstLedsData = 0B11111111;
-  secondLedsData = 0B11111111;
+  firstByte = 0B11111111;
+  secondByte = 0B11111111;
   shiftData(MSB);
 
   // Select direction

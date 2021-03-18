@@ -10,8 +10,8 @@ void circleAnimation(bitDirection animationDirection, lastCycle cycle){
 
   if(animationDirection == MSB){
     for(int i = 0; i < 12 - cycle; i++){
-       firstLedsData = indexesMsb[i];
-       secondLedsData = indexesLsb[i];
+       firstByte = indexesMsb[i];
+       secondByte = indexesLsb[i];
         
        shiftData(MSB);
 
@@ -19,8 +19,8 @@ void circleAnimation(bitDirection animationDirection, lastCycle cycle){
     }
   } else {
     for(int i = 12; i >= 0 + cycle; i--){
-       firstLedsData = indexesMsb[i];
-       secondLedsData = indexesLsb[i];
+       firstByte = indexesMsb[i];
+       secondByte = indexesLsb[i];
         
        shiftData(MSB);
 

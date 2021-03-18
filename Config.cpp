@@ -23,8 +23,8 @@ bool ButtonXState = 1;
 bool ButtonYState = 1;
 bool ButtonZState = 1;
 
-uint8_t firstLedsData = 0B00000000;
-uint8_t secondLedsData = 0B00000000;
+uint8_t firstByte = 0B00000000;
+uint8_t secondByte = 0B00000000;
 
 int mode = 1;
 bool playing = true;
