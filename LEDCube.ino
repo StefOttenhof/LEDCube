@@ -1,5 +1,6 @@
 #include "Config.h"
 #include "ShiftData.h"
+#include "Ground.h"
 
 bool ButtonXState = HIGH;
 bool ButtonYState = HIGH;
@@ -22,10 +23,7 @@ int groundDownArray[7] = { FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND,
 
 void upAndDownAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layer to low
-  digitalWrite(FIRSTGROUND, LOW);
-  digitalWrite(SECONDGROUND, LOW);
-  digitalWrite(THIRDGROUND, LOW);
-  digitalWrite(FOURTHGROUND, LOW);
+  turnAllLayersOff();
 
   int animationArray[7];
   
@@ -56,10 +54,7 @@ void upAndDownAnimation(bitDirection animationDirection, lastCycle cycle){
 
 void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high
-  digitalWrite(FIRSTGROUND, HIGH);
-  digitalWrite(SECONDGROUND, HIGH);
-  digitalWrite(THIRDGROUND, HIGH);
-  digitalWrite(FOURTHGROUND, HIGH);
+  turnAllLayersOn();
 
   // Set bit pattern
   firstLedsData = 0B00010001;
@@ -96,10 +91,7 @@ void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
 
 void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high
-  digitalWrite(FIRSTGROUND, HIGH);
-  digitalWrite(SECONDGROUND, HIGH);
-  digitalWrite(THIRDGROUND, HIGH);
-  digitalWrite(FOURTHGROUND, HIGH);
+  turnAllLayersOn();
 
   if(animationDirection == MSB){
     // Set bit pattern
@@ -182,10 +174,7 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycl
 
 void circleAnimation(bitDirection animationDirection, lastCycle cycle){
    // Set all layers to high
-  digitalWrite(FIRSTGROUND, HIGH);
-  digitalWrite(SECONDGROUND, HIGH);
-  digitalWrite(THIRDGROUND, HIGH);
-  digitalWrite(FOURTHGROUND, HIGH);
+  turnAllLayersOn();
 
   if(animationDirection == MSB){
     for(int i = 0; i < 12 - cycle; i++){
@@ -203,10 +192,7 @@ void circleAnimation(bitDirection animationDirection, lastCycle cycle){
 
 void twoRowsLeftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high
-  digitalWrite(FIRSTGROUND, HIGH);
-  digitalWrite(SECONDGROUND, HIGH);
-  digitalWrite(THIRDGROUND, HIGH);
-  digitalWrite(FOURTHGROUND, HIGH);
+  turnAllLayersOn();
 
    // Set bit pattern
    firstLedsData = 0B00000011;
@@ -326,8 +312,9 @@ ISR (PCINT2_vect){
 }
 
 void loop(){
-  leftAndRightAnimation(MSB, YES);
-  forwardAndBackwardAnimation(MSB, YES);
-  circleAnimation(LSB, YES);
-  twoRowsLeftAndRightAnimation(MSB, YES);
+  //leftAndRightAnimation(MSB, YES);
+  //forwardAndBackwardAnimation(MSB, YES);
+  //circleAnimation(LSB, YES);
+  //twoRowsLeftAndRightAnimation(MSB, YES);
+  upAndDownAnimation(MSB, NO);
 }
