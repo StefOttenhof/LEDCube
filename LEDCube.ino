@@ -2,6 +2,7 @@
 #include "ShiftData.h"
 #include "Ground.h"
 #include "upAndDown.h"
+#include "leftAndRight.h"
 
 bool ButtonXState = HIGH;
 bool ButtonYState = HIGH;
@@ -18,45 +19,6 @@ uint8_t secondLedsData = 0B00000001;
 int indexesLsb[12] = { 0B11100000, 0B01110000, 0B00110001, 0B00010001, 0B00000001, 0B00000000, 0B00000000, 0B00000000, 0B00000000, 0B00001000, 0B10001000, 0B11001000};
 int indexesMsb[12] = { 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B00010001, 0B00010011, 0B00000111, 0B00001110, 0B10001100, 0B10001000, 0B10000000, 0B00000000};
 
-
-
-
-void leftAndRightAnimation(bitDirection animationDirection, lastCycle cycle){
-  // Set all layers to high
-  turnAllLayersOn();
-
-  // Set bit pattern
-  firstLedsData = 0B00010001;
-  secondLedsData = 0B00010001;
-
-  // Loop to the left or right depending on direction
-  for(int i = 0; i < 4; i++){
-    // Shift bits into register
-    shiftData(animationDirection);
-
-    // Bitshift data values
-    firstLedsData = firstLedsData << 1;
-    secondLedsData = secondLedsData << 1;
-
-    shiftDelay();
-  }
-
-  // Set bit pattern
-  firstLedsData = 0B01000100;
-  secondLedsData = 0B01000100;
-
-  // Loop to the left or right depending on direction
-  for(int i = 0; i < 2 + cycle; i++){
-    // Shift bits into register
-    shiftData(animationDirection);
-
-    // Bitshift data values
-    firstLedsData = firstLedsData >> 1;
-    secondLedsData = secondLedsData >> 1;
-
-    shiftDelay();
-  }
-}
 
 void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layers to high
@@ -281,9 +243,9 @@ ISR (PCINT2_vect){
 }
 
 void loop(){
-  //leftAndRightAnimation(MSB, YES);
+  leftAndRightAnimation(MSB, NO);
   //forwardAndBackwardAnimation(MSB, YES);
   //circleAnimation(LSB, YES);
   //twoRowsLeftAndRightAnimation(MSB, YES);
-  upAndDownAnimation(MSB, NO);
+  //upAndDownAnimation(MSB, NO);
 }
