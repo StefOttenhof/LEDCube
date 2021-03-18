@@ -1,4 +1,5 @@
 #include "Config.h"
+#include "ShiftData.h"
 
 bool ButtonXState = HIGH;
 bool ButtonYState = HIGH;
@@ -18,20 +19,6 @@ int indexesMsb[12] = { 0B00000000, 0B00000000, 0B00000000, 0B00010000, 0B0001000
 // Ground layers for up and down animation
 int groundUpArray[7] = { FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND };
 int groundDownArray[7] = { FOURTHGROUND, THIRDGROUND, SECONDGROUND, FIRSTGROUND, SECONDGROUND, THIRDGROUND, FOURTHGROUND };
-
-void shiftData(bitDirection firstBit){
-    if(firstBit == 0){
-        digitalWrite(LATCHPIN, LOW);
-        shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, firstLedsData);
-        shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, secondLedsData);
-        digitalWrite(LATCHPIN, HIGH);
-    } else if(firstBit == 1){
-        digitalWrite(LATCHPIN, LOW);
-        shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, firstLedsData);
-        shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, secondLedsData);
-        digitalWrite(LATCHPIN, HIGH);
-    }
-}
 
 void upAndDownAnimation(bitDirection animationDirection, lastCycle cycle){
   // Set all layer to low
