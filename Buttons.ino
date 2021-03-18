@@ -5,45 +5,77 @@
 int posY = 1;
 
 void moveY(){
-      if(posY == 0){
-      digitalWrite(groundArray[3], LOW);
-      digitalWrite(groundArray[posY], HIGH);
-      delay(700);
-      posY++;
-    } else if(posY == 3){
-      digitalWrite(groundArray[posY - 1], LOW);
-      digitalWrite(groundArray[posY], HIGH);
-      delay(700);
-      posY = 0;
-    } else {
-       digitalWrite(groundArray[posY - 1], LOW);
-      digitalWrite(groundArray[posY], HIGH);
-      delay(700);
-      posY++;
-    }
+  /*
+  * Function: moveY
+  * ----------------------------
+  *   Moves active LED on Y scale based on current active LED
+  *
+  *   returns: none
+  */
+  if(posY == 0){
+    turnLayerOff(groundArray[3])
+    turnLayerOn(groundArray[posY])
+    shiftDelay();
+    posY++;
+    
+  } else if(posY == 3){
+    turnLayerOff(groundArray[posY - 1]);
+    turnLayerOn(groundArray[posY]);
+    shiftDelay();
+    posY = 0;
+   
+  } else {
+    turnLayerOff(groundArray[posY - 1]);
+    turnLayerOn(groundArray[posY]);
+    shiftDelay();
+    posY++;
+    
+  }
 
 }
 
 void moveX(){
-    if(firstByte == 0B00001000){
-      firstByte = 0B00000001;
-    } else if(firstByte == 0B10000000){
-      firstByte = 0B00010000;
-    } else {
-      firstByte = firstByte << 1;
-    }
+  /*
+  * Function: moveX
+  * ----------------------------
+  *   Moves active LED on X scale based on current active LED
+  *
+  *   returns: none
+  */
 
-    if(secondByte == 0B00001000){
-      secondByte = 0B00000001;
-    } else if(secondByte == 0B10000000){
-      secondByte = 0B00010000;
-    } else {
-      secondByte = secondByte << 1;
-    }
-    shiftData(MSB);
+  /*
+  * Modify first byte
+  */
+  if(firstByte == 0B00001000){
+    firstByte = 0B00000001;
+  } else if(firstByte == 0B10000000){
+    firstByte = 0B00010000;
+  } else {
+    firstByte = firstByte << 1;
+  }
+
+  /*
+  * Modify second byte
+  */
+  if(secondByte == 0B00001000){
+    secondByte = 0B00000001;
+  } else if(secondByte == 0B10000000){
+    secondByte = 0B00010000;
+  } else {
+    secondByte = secondByte << 1;
+  }
+    
+  shiftData(MSB);
 }
 
 void moveZ(){
+  /*
+  * Function: moveZ
+  * ----------------------------
+  *   Moves active LED on Z scale based on current active LED
+  *
+  *   returns: none
+  */
   if(firstByte >= 0B00010000){
     secondByte = firstByte >> 4;
     firstByte = 0B00000000;
@@ -59,10 +91,19 @@ void moveZ(){
 }
 
 void configLayout(){
-     turnAllLayersOff();
-     firstByte = 0B00000001;
-     secondByte = 0B00000000;
-     shiftData(MSB);
-     turnLayerOn(FIRSTGROUND);
+  /*
+  * Function: configLayout
+  * ----------------------------
+  *   Initializes cube with only one active led in the bottom corner
+  *
+  *   returns: none
+  */
+  turnAllLayersOff();
+  
+  firstByte = 0B00000001;
+  secondByte = 0B00000000;
+  shiftData(MSB);
+  
+  turnLayerOn(FIRSTGROUND);
 }
 /* END CIRCLE_INO */
