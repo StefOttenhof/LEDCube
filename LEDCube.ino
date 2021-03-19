@@ -85,10 +85,9 @@ void playAnimations(){
   */
   
   leftAndRightAnimation(MSB, YES);
+  circleAnimation(MSB, YES);
   forwardAndBackwardAnimation(LSB, YES);
-  circleAnimation(MSB, NO);
-  //twoRowsLeftAndRightAnimation(MSB, YES);
-  upAndDownAnimation(MSB, NO);
+  upAndDownAnimation(MSB, YES);
   
   /*
   * ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃

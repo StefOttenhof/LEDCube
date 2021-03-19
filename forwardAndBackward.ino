@@ -20,7 +20,7 @@ void forwardAndBackwardAnimation(bitDirection animationDirection, lastCycle cycl
     * Move forward
     */
     firstByte = 0B00001111;
-    secondByte = 0B00000000
+    secondByte = 0B00000000;
     
     for(int i = 0; i < 4; i++){
       shiftData(animationDirection);

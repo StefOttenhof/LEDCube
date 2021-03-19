@@ -13,8 +13,8 @@ void moveY(){
   *   returns: none
   */
   if(posY == 0){
-    turnLayerOff(groundArray[3])
-    turnLayerOn(groundArray[posY])
+    turnLayerOff(groundArray[3]);
+    turnLayerOn(groundArray[posY]);
     shiftDelay();
     posY++;
     
